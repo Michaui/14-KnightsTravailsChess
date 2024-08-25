@@ -1,31 +1,43 @@
-import "./style.scss";
+import './style.scss';
 
+import Chessboard from './chessboard.js'
+import Knight from './knight.js'
 
-class Chessboard {
-    constructor (boardId){
-        this.boardElement = document.getElementById(boardId); 
-        this.size = 8; 
-        this.squares = []; //siehe: createBoard()
-        this.createBoard(); 
-    }
+//Seiten Rules initialisieren 
+document.addEventListener("DOMContentLoaded", () => {
+    const chessboard = new Chessboard('chessboard'); 
+    const knight = new Knight([0,0]); //startposition
+    chessboard.placeKnight(knight.position[0], knight.position[1]);
+    
+    const output = document.getElementById('output'); 
 
-    createBoard(){
-        for(let row = 0; row < this.size; row++){
-            for( let col = 0; col < this.size; col++){
-                const square = document.createElement('div');
-                square.classList.add('square'); 
-                //Jedes zweite square soll auf 'light' gesetzt werden, sonst 'dark'
-                square.classList.add((row + col) % 2 === 0 ? 'light' : 'dark'); 
-                square.dataset.row = row; 
-                square.dataset.col = col; 
-                this.boardElement.appendChild(square); //Einfügen in das boardElement aka. chessboard
-                this.squares.push(square); //Array muss vorher vorhanden/erstellt sein.
-            }
+    //Klick-Event move definieren 
+    document.getElementById('chessboard').addEventListener('click', (event) => {
+        //Sicherstellen das Zahlen als Integers behandelt werden. Ohne parseInt bleiben diese Werte Strings, was in numerischen Berechnungen zu unerwarteten Ergebnissen führen könnte.
+        const row = parseInt(event.target.dataset.row); 
+        const col = parseInt(event.target.dataset.col);
+        const newPosition = [row, col]; 
+
+        //Bevor neue Position gesetzt wird, muss Validierung stattfinden. 
+        //Gebe mir alle valide mögliche Moves und überprüfe ob die neue Position mit eins dieser matched. 
+        //pos[0,1] aus return von getValideMoves mit newPosition vergleichen. 
+        if(knight.getNextValideMoves().some(pos => pos[0] === newPosition[0] && pos[1] === newPosition[1])){
+            knight.move(newPosition); //Setze Position als aktuelle Position und aktualisiere previousPosition
+            chessboard.placeKnight(knight.position[0], knight.position[1], knight.previousPosition)//Zeichne das Board mit der neuen Position und lösche das Hintergrund-Blau des vorherigen Feldes. 
+
+            /**  ALTERNATIVE
+            chessboard.placeKnight(newPosition)
+            => Dann müsste folgendes geändert werden:
+            placeKnight(position) {
+                const [row, col] = position;
+                ...
+                }
+            */
+            output.textContent = `Knight moved to [${row}, ${col}]`; 
+        } else{
+            output.textContent = `Invalid move`; 
         }
-    }
-
-    getSquare(row, col){
-        return this.squares.find(square => square.dataset.row == row && square.dataset.col == col); 
-    }
-} 
-
+    });
+    
+    console.log(knight.getNextValideMoves());
+}); 
