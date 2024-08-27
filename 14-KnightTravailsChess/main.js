@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //Gebe mir alle valide mögliche Moves und überprüfe ob die neue Position mit eins dieser matched. 
         //pos[0,1] aus return von getValideMoves mit newPosition vergleichen. 
         if(knight.getNextValideMoves().some(pos => pos[0] === newPosition[0] && pos[1] === newPosition[1])){
-            knight.move(newPosition); //Setze Position als aktuelle Position und aktualisiere previousPosition
+            knight.move(newPosition); //Setze Position als aktuelle Position und aktualisiere previousPosition (Vorher)
             chessboard.placeKnight(knight.position[0], knight.position[1], knight.previousPosition)//Zeichne das Board mit der neuen Position und lösche das Hintergrund-Blau des vorherigen Feldes. 
 
             /**  ALTERNATIVE
@@ -33,11 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 ...
                 }
             */
+
+            //Finde den kürzesten Pfad zum Ziel 
+            const path = knight.findShortestWay([0, 0], newPosition) // Beispiel: von [0,0] zum Ziel
+            chessboard.displayPath(path); 
+
             output.textContent = `Knight moved to [${row}, ${col}]`; 
         } else{
             output.textContent = `Invalid move`; 
         }
     });
-    
+
     console.log(knight.getNextValideMoves());
 }); 

@@ -35,6 +35,7 @@ class Chessboard {
     }
 
     placeKnight(row, col, previousPosition){
+        this.clearBoard(); 
 
         if (previousPosition) {
             // Hintergrund des vorherigen Feldes zurücksetzen
@@ -42,10 +43,25 @@ class Chessboard {
             prevSquare.classList.remove('knight');
         }
 
-        this.clearBoard(); 
         const square = this.getSquare(row, col); 
         square.textContent = '♘'; 
         square.classList.add('knight'); 
+    }
+
+    //ERKLÄRUNG
+    displayPath(path){
+        this.clearBoard(); 
+        this.squares.forEach(square => {
+            if(square.classList.contains('knight')){
+                square.classList.remove('knight'); 
+            }
+        })
+
+        path.forEach((position, index) => {
+            const square = this.getSquare(position[0], position[1]); 
+            square.textContent = index === 0 ? 'S' : index === path.length - 1 ? 'E' : '♘' // Start (S), Ende (E), sonst Knight (♘)
+            square.classList.add('knight'); 
+        });
     }
 } 
 
