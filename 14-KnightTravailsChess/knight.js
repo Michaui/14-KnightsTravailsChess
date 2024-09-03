@@ -33,7 +33,6 @@ class Knight {
 
     //Breadth-First Search (BFS)
     //Der erste gefundene Pfad, der das Ziel erreicht, auch der kürzeste ist. Das liegt daran, dass BFS alle möglichen Pfade gleichmäßig in der Reihenfolge ihrer Länge durchläuft.
-
     findShortestWay(start, end){ //1. knight.findShortestWay([0,0],newPosition)
         const queue = [[start]]; //1. Pfad hinzugefügt, welches zuerst nur das Startfeld [[[0, 0]]] enthält. Nachträglich werden weitere hinzugefügt.
                                 //10.2: Neue Pfade zur queue und als visted hinzufügen. 
