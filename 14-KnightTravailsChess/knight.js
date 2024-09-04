@@ -57,6 +57,7 @@ class Knight {
                 //10.6: Mögliche nächste Züge: [3, 3], [0, 4], [2, 4], [2, 0] Aktuelle Position: [1,2] -> Wird mit queue.push mit Startposition an die Liste gehangen. 
                 if (!visited.has(nextPosition.toString())){ //9. Überprüft, ob die Position bereits besucht wurde. 
                     visited.add(nextPosition.toString());//9.1 Wenn nicht, wird die Position zu visited hinzugefügt... 
+                    console.log([...path, nextPosition]);
                     queue.push([...path, nextPosition]) //9.2 und ein neuer Pfad, der die aktuelle Position und die neue Position enthält, wird zur queue hinzugefügt. 
                                                         //10 queue = [[[0, 0], [2, 1]], [[0, 0], [1, 2]]]
                                                         //11. queue = [[[0, 0], [1, 2]], [[0, 0], [2, 1], [4, 2]], [[0, 0], [2, 1], [0, 2]], [[0, 0], [2, 1], [3, 3]], [[0, 0], [2, 1], [1, 3]]]
