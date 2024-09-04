@@ -47,8 +47,7 @@ class Chessboard {
         square.textContent = '♘'; 
         square.classList.add('knight'); 
     }
-
-    //ERKLÄRUNG
+    
     displayPath(path){
         this.clearBoard(); 
         this.squares.forEach(square => {
